@@ -56,12 +56,42 @@
 
   <div class="row">
     <form class="col s10 offset-s1">
+
+      <div class="row">
+        <div class="input-field col s12">
+          <input id="link" type="url" class="validate"></input>
+          <label for="link">Link (copy & paste)</label>
+        </div>
+      </div>
+
       <div class="row">
         <div class="input-field col s6">
           <input id="title" type="text" class="validate">
           <label for="title">Leaf Title</label>
         </div>
+        <div class="input-field col s6">
+          <input id="date" type="date" class="datepicker">
+          <label for="date">Date of Event</date>
+        </div>
       </div>
+
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="textarea1" class="materialize-textarea"></textarea>
+          <label for="textarea1">Description</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div id="families" class="col s12">
+          <p>
+            <input type="checkbox" id="test6" checked="checked" />
+            <label for="test6">Family n1</label>
+          </p>
+        </div>
+      </div>
+
+
 
       <a id="submit" class="waves-effect waves-light btn">Submit</a>
     </form>
