@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>Impowerus</title>
+  <title>Lineage</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="version" content="0.0.1">
@@ -19,7 +19,7 @@
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/3.6.9/firebase.js"></script>
   <!--written JS files-->
-  <script src="./js/main.js"></script>
+  <script src="./js/register.js"></script>
 
 </head>
 
@@ -50,7 +50,7 @@
           </div>
 
           <div class="input-field col s6">
-            <select class="browser-default">
+            <select id="state" class="browser-default">
               <option value="" disabled selected>State</option>
             	<option value="AL">Alabama</option>
             	<option value="AK">Alaska</option>
@@ -123,7 +123,7 @@
             <div class="file-field input-field">
               <div class="btn">
                 <span>File</span>
-                <input type="file">
+                <input class="photo" type="file">
               </div>
               <div class="file-path-wrapper">
                 <input class="file-path validate" type="text">
