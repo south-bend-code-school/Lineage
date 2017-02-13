@@ -21,15 +21,14 @@
     var ref = firebase.database().ref('User/'+userKey);
     ref.once('value', function(snapshot){
       var user = snapshot.val();
-      $('.card-image').append("<img src"++">")
     });
   }
 
   function loadUserImage() {
     var userKey = location.search.split('name=')[1];
-
     firebase.storage().ref().child("images/users/" + userKey).getDownloadURL().then(function(url) {
-     $('.card-image').append("<img src"+url+">")
+      console.log(url);
+     $('.card-image').append("<img src="+url+">")
    }).catch(function(error) {
      console.log(error);
    });
