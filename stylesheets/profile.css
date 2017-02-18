@@ -9,7 +9,13 @@
   -webkit-clip-path: circle(28px at center);
   clip-path: circle(28px at center);
 }
-
-#leaves {
-
+/*
+.backimg {
+  -webkit-filter: blur(3px);
+	filter: blur(20px);
 }
+
+.fullimg {
+  -webkit-filter: blur(3px);
+	filter: blur(20px);
+}*/
