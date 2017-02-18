@@ -1,4 +1,15 @@
-.card-image img {
-  width: 300px;
-  height: 300px;
+.navtitle {
+  padding-left:10px !important;
+  font-family: 'Lora', serif;
+}
+
+.clip-circle {
+  width: 56px;
+  margin: 3px;
+  -webkit-clip-path: circle(28px at center);
+  clip-path: circle(28px at center);
+}
+
+#leaves {
+
 }

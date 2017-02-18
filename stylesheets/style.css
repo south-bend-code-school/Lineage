@@ -1,3 +1,45 @@
 #dropdown1 {
   width: 200px !important;
 }
+
+body {
+  margin: 0px;
+}
+
+.hero {
+  background-image: linear-gradient(
+            rgba(0, 0, 0, 0.5),
+            rgba(0, 0, 0, 0.5)
+          ),url(../imgs/background-tree.jpg);
+  background-size: cover;
+  background-position: center;
+  height: 100vh;
+}
+
+.login-btns {
+  margin: 0px;
+  position:absolute;
+  bottom:25%;
+  width: 20%
+}
+
+.hero-title {
+  font-family: 'Lora', serif;
+  position:absolute;
+  top:30%;
+  text-align:center;
+  width:100%;
+  color:white;
+  font-size:10vw;
+  transform: translate(0,-50%);
+}
+
+.hero-subtitle {
+  position:absolute;
+  top:50%;
+  text-align:center;
+  width:100%;
+  color:white;
+  font-size:4vw;
+  transform: translate(0,-50%);
+}
