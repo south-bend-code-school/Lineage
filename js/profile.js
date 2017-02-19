@@ -185,13 +185,16 @@
     var html =   "<div class='col s12 m7'>" +
       "<div class='card horizontal'>" +
         "<div class='card-image'>" +
-          "<img src='" + crest_url + "' style='height:200px;padding:15px;'>" +
+          "<img src='" + crest_url + "' style='height:250px;padding:15px;'>" +
         "</div>" +
         "<div class='card-stacked'>" +
           "<div class='card-content'>" +
             "<h5>" + crest_name + "</h5>" +
             "<p>" + crest_desc + "</p>" +
-            "<div id='" + snapshot.key + "'></div>" +
+            "<div class='valign-wrapper center' id='" + snapshot.key + "'>"  +
+              "<img src='https://s3-us-west-2.amazonaws.com/slack-files2/avatars/2017-02-04/137035326931_423613000cebd97f9715_72.png'>" +
+               "<span class='thin valign' style='padding-left:10px'>and "+ Math.floor((Math.random() * 13) + 3) + " more</span>" +
+            "</div>" +
           "</div>" +
           "<div class='card-action'>" +
             "<a class='btn' id='"+snapshot.key+"' href='#'>Invite Others</a>" +
