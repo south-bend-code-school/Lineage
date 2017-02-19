@@ -21,6 +21,8 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
   <!-- Firebase -->
   <script src="https://www.gstatic.com/firebasejs/3.6.9/firebase.js"></script>
+  <!-- dropzone.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.js"></script>
   <!--written JS files-->
   <script src="./js/profile.js"></script>
 
@@ -28,7 +30,7 @@
 
 <body>
 
-  <nav class="nav-extended">
+  <nav class="nav-extended teal lighten-1">
     <div class="nav-wrapper">
       <a href="index.html" class="brand-logo navtitle">Linage</a>
       <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
@@ -38,15 +40,13 @@
       </ul>
       <ul class="side-nav" id="mobile-demo">
         <li><a href="sass.html">My Timeline</a></li>
-        <li><a href="badges.html">Family Crests</a></li>
-        <li><a href="collapsible.html">My Profile</a></li>
+        <li><a href="badges.html">Family Trees</a></li>
       </ul>
     </div>
     <div class="nav-content">
       <ul class="tabs tabs-transparent">
         <li class="tab"><a class="active" href="#timeline">My Timeline</a></li>
-        <li class="tab"><a class="active" href="#family">Family Crests</a></li>
-        <li class="tab"><a class="active" href="#profile">My Profile</a></li>
+        <li class="tab"><a class="active" href="#family">Family Trees</a></li>
       </ul>
     </div>
 
@@ -54,17 +54,11 @@
 
   <div id="timeline" class="container center">
     <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-      <a class="btn-floating btn-large red lighten-2" href="./create_media.html">
-        <i class="material-icons">mode_edit</i>
+      <a class="btn-floating btn-large red lighten-2" href="#modalNewStory">
+        <i class="material-icons">add</i>
       </a>
     </div>
-    <div class="row">
-      <div class="input-field col s12 valign-wrapper">
-        <i class="material-icons prefix">search</i>
-        <input type="text" id="autocomplete-input" class="autocomplete">
-        <label for="autocomplete-input">Search Timeline</label>
-      </div>
-    </div>
+
     <h2 class='header'>My Timeline</h2>
     <div id="timelineMedia">
     </div>
@@ -73,32 +67,77 @@
   <div id="family" class="container center">
     <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
       <a class="btn-floating btn-large red lighten-2" href="./create_family.html">
-        <i class="material-icons">verified_user</i>
+        <i class="material-icons">add</i>
       </a>
     </div>
-    <div class="row">
-      <div class="input-field col s12 valign-wrapper">
-        <i class="material-icons prefix">search</i>
-        <input type="text" id="autocomplete-input" class="autocomplete">
-        <label for="autocomplete-input">Search to join new family crests</label>
+
+    <h2 class='header'>Family Trees</h2>
+    <div id="familyCrests">
+    </div>
+  </div>
+
+
+
+  <!-- Modal structure for creating new story -->
+  <div id="modalNewStory" class="modal">
+    <div class="modal-content">
+      <h2 class='header center'>Share your story</h2>
+      <div class="row">
+        <form class="col s10 offset-s1">
+
+          <div class="row">
+            <div class="input-field col s6">
+              <input id="story_title" type="text" class="validate">
+              <label for="story_title">Story Title</label>
+            </div>
+            <div class="input-field col s6">
+              <input id="story_year" type="text" class="validate">
+              <label for="story_year">Story Year</date>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="file-field input-field">
+              <div class="btn">
+                <span>Cover Photo</span>
+                <input class="photo" type="file">
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" type="text">
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="video_link" type="url" class="validate"></input>
+              <label for="link">Video Link (optional)</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-field col s12">
+              <textarea id="story_desc" class="materialize-textarea"></textarea>
+              <label for="story_desc">Story Details</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="input-field col s12">
+              <select multiple id="newStoryFamilyDropDown">
+                <option value="" disabled selected>Share with all your families</option>
+              </select>
+              <label>Families</label>
+            </div>
+          </div>
+
+
+          <a id="submitStory" class="waves-effect waves-light btn">Submit</a>
+        </form>
       </div>
     </div>
-    <h2 class='header'>Family Crests</h2>
-    <div id="familyCrests">
-
-    </div>
   </div>
 
-  <div id="profile" class="col s12 container">
-  Profile
-  </div>
-  <!-- Dropdown Structure -->
-  <!-- <ul id="dropdown1" class="dropdown-content">
-    <li><a href="./serch.html">Search for Family</a></li>
-    <li><a href="./manage_trees.html">Manage Trees</a></li>
-    <li><a href="./invites.html">Invites</a></li>
-    <li><a href="#!">Update Info</a></li>
-  </ul> -->
 </body>
 
 </html>

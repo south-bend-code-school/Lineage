@@ -15,20 +15,16 @@
   function init () {
     firebase.initializeApp(config);
     $('.dropdown-button').dropdown();
-    userKey = location.search.split('name=')[1];
-    // loadUserInfo();
-    loadUserImage();
-    loadTimeline();
-  }
+    $('.modal').modal();
+    $('#submitStory').click(submitStory)
 
-  // function loadUserInfo() {
-  //
-  //   var ref = firebase.database().ref('user/'+userKey);
-  //   ref.once('value', function(snapshot){
-  //     var user = snapshot.val();
-  //     $('#user_name').append(user.fName+' '+user.lName);
-  //   });
-  // }
+
+    userKey = location.search.split('name=')[1];
+
+    //loadUserImage();
+    loadTimeline()
+    setTimeout(function() {$('select').material_select()}, 2000);
+  }
 
   function loadUserImage() {
     firebase.storage().ref().child('images/users/' + userKey).getDownloadURL().then(function(url) {
@@ -59,6 +55,11 @@
               //Update the Family Tab to show each family crest that I belong to.
               renderCrests(snapshot);
 
+              //Update the dropdown box with all our families for our modalNewStory
+              var html =   "<option value='" + familySnapshot.key + "'>" + snapshot.child("name").val() + "</option>"
+              console.log(html)
+              $('#newStoryFamilyDropDown').append(html)
+
               //loop through all media that is tagged for this crest and add it to our timeline
               snapshot.child("media").forEach(function(mediaSnapshot){
                 // console.log(mediaSnapshot.key);
@@ -72,6 +73,73 @@
             });
 
         });
+      });
+  }
+
+  function submitStory() {
+
+    // Get a key for a new Post.
+    var newMediaKey = firebase.database().ref().child('media').push().key;
+
+    firebase.storage().ref().child("images/media/"+newMediaKey).put($(".photo")[0].files[0])
+      .then(function(){
+        // Create a reference to the file we want to download
+        console.log("storage:" + "images/media/"+newMediaKey)
+        var starsRef = firebase.storage().ref().child("images/media/"+newMediaKey);
+        // Get the download URL
+        starsRef.getDownloadURL().then(function(url) {
+          // Insert url into an <img> tag to "download"
+          var story_title = $('#story_title').val();
+          var story_year = $('#story_year').val();
+          var video_link = $('#video_link').val();
+          var story_desc = $('#story_desc').val();
+          var video_story = false;
+          if(video_link) {
+            video_story = true;
+          }
+          // A media post entry.
+          var postData = {
+            created_by: userKey,
+            desc: story_desc,
+            media_url: url,
+            title: story_title,
+            story_year: story_year,
+            video_url: video_link,
+            video_story: video_story
+          };
+
+          // Write the new post's data simultaneously in the media list and the checked families list.
+          var updates = {};
+          updates['/media/' + newMediaKey] = postData;
+
+          //foreach family checked, add to our updates arrary.
+          if($("ul li.active").length > 0) {
+            //Assuming we have at least one checked family to share...
+            $("ul li.active").each(function() {
+              //loop through every checked item and get the name.
+              var selected_name = this.innerText;
+              $("option").each(function() {
+                //with that name, we need to determine the key for the family.
+                if(selected_name == this.innerText) {
+                  //with the family key, we can push the newMediaKey data into the tree.
+                  var d = {}
+                  d[newMediaKey] = true;
+                  updates['/family/'+this.value+'/media/' +newMediaKey] = true;
+                }
+              });
+            });
+          } else {
+            //find every family for this user
+            $("option").each(function() {
+              console.log("all families selected" + this.value)
+              var d = {}
+              d[newMediaKey] = true;
+              updates['/family/'+this.value+'/media/' + newMediaKey] = true;
+            });
+          }
+
+          return firebase.database().ref().update(updates).then(function(){location.reload();});
+        })
       });
   }
 
@@ -103,42 +171,45 @@
   function renderMedia(snapshot) {
     var media = snapshot.val();
     var html
-    if(media.video_story) {
-      html = "<div class='card large'>" +
-                   "<div class='card-image waves-effect waves-block waves-light'>" +
-                     "<img class='activator' style='background-posting:center top; width=100%; height:auto' src='"+media.media_url+"'>" +
+    //make sure we don't render duplicate cards if they are shared to multiple families.
+    if($("#"+snapshot.key).length < 1) {
+      if(media.video_story) {
+        html = "<div class='card large' id='"+snapshot.key+"'>" +
+                     "<div class='card-image waves-effect waves-block waves-light'>" +
+                       "<img class='activator' style='background-posting:center top; width=100%; height:auto' src='"+media.media_url+"'>" +
+                     "</div>" +
+
+                     "<div class='card-content center'>"+
+                       "<span class='card-title activator grey-text text-darken-4'>" + media.title +
+                       "<p><em class='card-title activator'>Story Year: " + media.story_year + "</em></p>" +
+                       "<div class='btn activator teal lighten-3 center'>Watch Story</div>" +
+                     "</div>" +
+                   "<div class='card-reveal'>" +
+                     "<span class='card-title activator grey-text text-darken-4'>" + media.title + "<i class='material-icons right'>close</i></span>" +
+                     "<iframe width='560' height='315' src='" + media.video_url + "?rel=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe>" +
+                     "<p>" + media.desc + "</p>" +
                    "</div>" +
-
-                   "<div class='card-content center'>"+
-                     "<span class='card-title activator grey-text text-darken-4'>" + media.title +
-                     "<p><em class='card-title activator'>Story Year: " + media.story_year + "</em></p>" +
-                     "<div class='btn activator teal lighten-3 center'>Watch Story</div>" +
-                   "</div>" +
-                 "<div class='card-reveal'>" +
-                   "<span class='card-title activator grey-text text-darken-4'>" + media.title + "<i class='material-icons right'>close</i></span>" +
-                   "<iframe width='560' height='315' src='" + media.video_url + "?rel=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe>" +
-                   "<p>" + media.desc + "</p>" +
-                 "</div>" +
-               "</div>"
+                 "</div>"
 
 
-    } else {
-     html = "<div class='card large'>" +
-                  "<div class='card-image waves-effect waves-block waves-light'>" +
-                    "<img class='activator' style='background-posting:center top; width=100%; height:auto' src='"+media.media_url+"'>" +
+      } else {
+       html = "<div class='card large' id='"+snapshot.key+"'>" +
+                    "<div class='card-image waves-effect waves-block waves-light'>" +
+                      "<img class='activator' style='background-posting:center top; width=100%; height:auto' src='"+media.media_url+"'>" +
+                    "</div>" +
+                    "<div class='card-content center'>"+
+                      "<span class='card-title activator grey-text text-darken-4'>" + media.title +
+                      "<p><em class='card-title activator'>Story Year: " + media.story_year + "</em></p>" +
+                      "<div class='btn activator teal lighten-3 center'>Read Story</div>" +
+                    "</div>" +
+                  "<div class='card-reveal'>" +
+                    "<span class='card-title activator grey-text text-darken-4'>" + media.title + "<i class='material-icons right'>close</i></span>" +
+                    "<p>" + media.desc + "</p>" +
                   "</div>" +
-                  "<div class='card-content center'>"+
-                    "<span class='card-title activator grey-text text-darken-4'>" + media.title +
-                    "<p><em class='card-title activator'>Story Year: " + media.story_year + "</em></p>" +
-                    "<div class='btn activator teal lighten-3 center'>Read Story</div>" +
-                  "</div>" +
-                "<div class='card-reveal'>" +
-                  "<span class='card-title activator grey-text text-darken-4'>" + media.title + "<i class='material-icons right'>close</i></span>" +
-                  "<p>" + media.desc + "</p>" +
-                "</div>" +
-              "</div>"
+                "</div>"
+      }
+      $('#timelineMedia').append(html);
     }
-    $('#timelineMedia').append(html);
   }
 
 })();

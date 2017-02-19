@@ -9,6 +9,13 @@
   -webkit-clip-path: circle(28px at center);
   clip-path: circle(28px at center);
 }
+
+.dropzone {
+  margin-top: 3em;
+  border: 3px dashed gray;
+  border-radius: 10px;
+}
+
 /*
 .backimg {
   -webkit-filter: blur(3px);
