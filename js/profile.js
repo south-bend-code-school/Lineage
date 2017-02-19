@@ -17,6 +17,7 @@
     $('.dropdown-button').dropdown();
     $('.modal').modal();
     $('#submitStory').click(submitStory)
+    $('#submitFamily').click(submitFamily)
 
 
     userKey = location.search.split('name=')[1];
@@ -143,6 +144,31 @@
       });
   }
 
+  function submitFamily() {
+    // Get a key for a new Post.
+    var newFamilyKey = firebase.database().ref().child('family').push().key;
+    var family_desc = $('#family_desc').val();
+    var family_name = $('#family_name').val();
+
+    var tree_url = "./imgs/trees/tree"+Math.floor((Math.random() * 13) + 1)+".svg"
+    // A media post entry.
+    var postData = {
+      created_by: userKey,
+      desc: family_desc,
+      crest_url: tree_url,
+      name: family_name
+    };
+
+    // Write the new post's data simultaneously in the media list and the checked families list.
+    var updates = {};
+    updates['/family/' + newFamilyKey] = postData;
+    updates['/user/'+ userKey+'/family/'+ newFamilyKey] = true;
+
+    //send emails to invite users.
+
+    return firebase.database().ref().update(updates).then(function(){location.reload();});
+
+  }
   function renderCrests(snapshot) {
     var crest_url = snapshot.child("crest_url").val();
     var crest_name = snapshot.child("name").val();
@@ -150,7 +176,7 @@
     var html =   "<div class='col s12 m7'>" +
       "<div class='card horizontal'>" +
         "<div class='card-image'>" +
-          "<img src='" + crest_url + "'>" +
+          "<img src='" + crest_url + "' style='height:200px;padding:15px;'>" +
         "</div>" +
         "<div class='card-stacked'>" +
           "<div class='card-content'>" +
@@ -159,7 +185,7 @@
             "<div id='" + snapshot.key + "'></div>" +
           "</div>" +
           "<div class='card-action'>" +
-            "<a href='#'>Invite Others</a>" +
+            "<a class='btn' id='"+snapshot.key+"' href='#'>Invite Others</a>" +
           "</div>" +
         "</div>" +
       "</div>" +

@@ -66,7 +66,7 @@
 
   <div id="family" class="container center">
     <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
-      <a class="btn-floating btn-large red lighten-2" href="./create_family.html">
+      <a class="btn-floating btn-large red lighten-2" href="#modalNewFamily">
         <i class="material-icons">add</i>
       </a>
     </div>
@@ -92,7 +92,7 @@
             </div>
             <div class="input-field col s6">
               <input id="story_year" type="text" class="validate">
-              <label for="story_year">Story Year</date>
+              <label for="story_year">Story Year</label>
             </div>
           </div>
 
@@ -134,6 +134,38 @@
 
           <a id="submitStory" class="waves-effect waves-light btn">Submit</a>
         </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal structure for creating new family -->
+  <div id="modalNewFamily" class="modal">
+    <div class="modal-content">
+      <h2 class='header center'>Register New Family</h2>
+      <div class="row">
+        <form class="col s10 offset-s1">
+
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="family_name" type="text" class="validate">
+              <label for="family_name">Family Name</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="family_desc" type="text" class="validate">
+              <label for="family_desc">Family Description</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="input-field col s12">
+              <input id="emails" type="text" class="validate">
+              <label for="emails">Invitations (jane@gmail.com;emmet@gmail.com;...)</label>
+            </div>
+          </div>
+          <a id="submitFamily" class="waves-effect waves-light btn">Submit</a>
+        </form>
+
       </div>
     </div>
   </div>
