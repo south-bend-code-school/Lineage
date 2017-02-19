@@ -149,6 +149,7 @@
     var newFamilyKey = firebase.database().ref().child('family').push().key;
     var family_desc = $('#family_desc').val();
     var family_name = $('#family_name').val();
+    var emails = $('#emails').val();
 
     var tree_url = "./imgs/trees/tree"+Math.floor((Math.random() * 13) + 1)+".svg"
     // A media post entry.
@@ -164,9 +165,17 @@
     updates['/family/' + newFamilyKey] = postData;
     updates['/user/'+ userKey+'/family/'+ newFamilyKey] = true;
 
-    //send emails to invite users.
-
-    return firebase.database().ref().update(updates).then(function(){location.reload();});
+    //save and send emails to invite users.  Then reload the page.
+    return firebase.database().ref().update(updates).then(function(){
+      emailjs.send("sendgrid", "linage_invite", {"family_name":family_name,"email":emails}).then( function(response) {
+        console.log("email a success", response);
+        location.reload();
+      },
+      function(error) {
+        console.log("Email failed", error);
+        location.reload();
+      })
+    });
 
   }
   function renderCrests(snapshot) {
