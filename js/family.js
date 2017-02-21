@@ -10,72 +10,48 @@
    };
 
   var userKey;
+  var familyKey;
   var mediaObjects = [];
 
   function init () {
     firebase.initializeApp(config);
-    $('.dropdown-button').dropdown();
-    $('.modal').modal();
-    $('#submitStory').click(submitStory);
-    $('#submitFamily').click(submitFamily);
 
+    userKey = getParameterByName('name');
+    familyKey = getParameterByName('family');
 
-
-    userKey = location.search.split('name=')[1];
-
-    //loadUserImage();
     loadTimeline()
-    setTimeout(function() {$('select').material_select();$('.btnViewStory').click(viewStory);}, 2000);
   }
 
-  function loadUserImage() {
-    firebase.storage().ref().child('images/users/' + userKey).getDownloadURL().then(function(url) {
-     $('.clip-circle').append('<img src='+url+' style="height:56px;width:56px;">')
-   }).catch(function(error) {
-     console.log(error);
-   });
+  function getParameterByName(name, url) {
+    if (!url) {
+      url = window.location.href;
+    }
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
   }
 
   function loadTimeline() {
 
-    var ref = firebase.database().ref("user/" + userKey);
+    var ref = firebase.database().ref("family/" + familyKey);
     ref.once("value")
       .then(function(snapshot) {
-        // console.log(snapshot.val());
-
-        //add the name of the logged in user to the site
-        $('#user_name').append(snapshot.child("fName").val()+' '+snapshot.child("lName").val());
-
-        //load the timeline
-        snapshot.child("family").forEach(function(familySnapshot) {
-          // console.log(familySnapshot.key);
-          var ref = firebase.database().ref("family/" + familySnapshot.key);
-          // console.log("family/" + familySnapshot.key)
+        //loop through all media that is tagged for this crest and add it to our timeline
+        snapshot.child("media").forEach(function(mediaSnapshot){
+          // console.log(mediaSnapshot.key);
+          var ref = firebase.database().ref("media/"+mediaSnapshot.key);
           ref.once("value")
             .then(function(snapshot) {
+              renderMedia(snapshot);
+            })
+        })
 
-              //Update the Family Tab to show each family crest that I belong to.
-              renderCrests(snapshot);
-
-              //Update the dropdown box with all our families for our modalNewStory
-              var html =   "<option value='" + familySnapshot.key + "'>" + snapshot.child("name").val() + "</option>"
-              console.log(html)
-              $('#newStoryFamilyDropDown').append(html)
-
-              //loop through all media that is tagged for this crest and add it to our timeline
-              snapshot.child("media").forEach(function(mediaSnapshot){
-                // console.log(mediaSnapshot.key);
-                var ref = firebase.database().ref("media/"+mediaSnapshot.key);
-                ref.once("value")
-                  .then(function(snapshot) {
-                    renderMedia(snapshot);
-                  })
-              })
-
-            });
-
-        });
       });
+
+
   }
 
   function submitStory() {
@@ -253,7 +229,8 @@
   }
 
   function viewStory() {
-    window.location.replace('./family.html?name='+userKey+'&family='+this.id);
+
+    this.id
   }
 
 })();

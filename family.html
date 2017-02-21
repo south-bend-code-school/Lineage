@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Lineage</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="version" content="0.0.1">
+
+  <!--Import Google Icon Font-->
+  <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <!-- Compiled and minified CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/css/materialize.min.css">
+  <link href="https://fonts.googleapis.com/css?family=Lora:400" rel="stylesheet">
+  <link rel="stylesheet" href="./stylesheets/style.css">
+  <link rel="stylesheet" href="./stylesheets/profile.css">
+
+
+  <!--jquery cdn-->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+  <!-- Compiled and minified JavaScript -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.97.8/js/materialize.min.js"></script>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/3.6.9/firebase.js"></script>
+  <!-- dropzone.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/4.3.0/dropzone.js"></script>
+  <!--written JS files-->
+  <script src="./js/family.js"></script>
+</head>
+
+<body>
+
+  <nav class="nav-extended teal lighten-1">
+    <div class="nav-wrapper">
+      <a href="index.html" class="brand-logo navtitle">Lineage</a>
+      <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+      <ul id="nav-mobile" class="right hide-on-med-and-down">
+        <li class=""><a href="#">Logout</a></li>
+        <li style="margin-right:10px !important;" id="user_name"></li>
+      </ul>
+      <ul class="side-nav" id="mobile-demo">
+        <li><a href="sass.html">My Timeline</a></li>
+        <li><a href="badges.html">Family Trees</a></li>
+      </ul>
+    </div>
+    <div class="nav-content">
+      <ul class="tabs tabs-transparent">
+        <li class="tab"><a id="#user_name" class="active" href="#family">Family</a></li>
+      </ul>
+    </div>
+
+  </nav>
+
+  <div id="family" class="container center">
+    <div class="fixed-action-btn" style="bottom: 45px; right: 24px;">
+      <a class="btn-floating btn-large red lighten-2" href="#modalNewStory">
+        <i class="material-icons">add</i>
+      </a>
+    </div>
+
+    <h2 class='header'>My Timeline</h2>
+    <div id="timelineMedia">
+    </div>
+  </div>
+</body>
+
+</html>
