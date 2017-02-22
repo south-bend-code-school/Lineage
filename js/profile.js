@@ -214,26 +214,26 @@
     //make sure we don't render duplicate cards if they are shared to multiple families.
     if($("#"+snapshot.key).length < 1) {
       if(media.video_story) {
-        html = "<div class='card large' id='"+snapshot.key+"'>" +
+        html = "<div class='row col l6 m6 s12'>" +
+                  "<div class='card large' id='"+snapshot.key+"'>" +
                      "<div class='card-image waves-effect waves-block waves-light'>" +
                        "<img class='activator' style='background-posting:center top; width=100%; height:auto' src='"+media.media_url+"'>" +
                      "</div>" +
-
                      "<div class='card-content center'>"+
                        "<span class='card-title activator grey-text text-darken-4'>" + media.title +
                        "<p><em class='card-title activator'>Story Year: " + media.story_year + "</em></p>" +
                        "<div class='btn activator teal lighten-3 center'>Watch Story</div>" +
                      "</div>" +
                    "<div class='card-reveal'>" +
-                     "<span class='card-title activator grey-text text-darken-4'>" + media.title + "<i class='material-icons right'>close</i></span>" +
+                     "<span class='card-title activator grey-text text-darken-4 flow-text'>" + media.title + "<i class='material-icons right'>close</i></span>" +
                      "<iframe width='560' height='315' src='" + media.video_url + "?rel=0&amp;showinfo=0' frameborder='0' allowfullscreen></iframe>" +
                      "<p>" + media.desc + "</p>" +
                    "</div>" +
-                 "</div>"
+                 "</div>" + "</div>"
 
 
       } else {
-       html = "<div class='card large' id='"+snapshot.key+"'>" +
+       html = "<div class='col l6 m6 s12 row'>" + "<div class='card large' id='"+snapshot.key+"'>" +
                     "<div class='card-image waves-effect waves-block waves-light'>" +
                       "<img class='activator' style='background-posting:center top; width=100%; height:auto' src='"+media.media_url+"'>" +
                     "</div>" +
@@ -246,7 +246,7 @@
                     "<span class='card-title activator grey-text text-darken-4'>" + media.title + "<i class='material-icons right'>close</i></span>" +
                     "<p>" + media.desc + "</p>" +
                   "</div>" +
-                "</div>"
+                "</div>"  + "</div>"
       }
       $('#timelineMedia').append(html);
     }

@@ -93,7 +93,7 @@
       .then(function(user){
         firebase.storage().ref().child("images/users/"+user.uid).put($(".photo")[0].files[0])
           .then(function(snapshot){
-            updates['/User/' + user.uid] = userData;
+            updates['/user/' + user.uid] = userData;
             return firebase.database().ref().update(updates)
               .then(function(){
                 window.location.replace('./profile.html?name='+user.uid);
