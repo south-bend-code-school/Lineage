@@ -15,6 +15,7 @@
   function init () {
     firebase.initializeApp(config);
     $('.dropdown-button').dropdown();
+    $('.collapsible').collapsible();
     $('.modal').modal();
     $('#submitStory').click(submitStory);
     $('#submitFamily').click(submitFamily);
@@ -59,7 +60,7 @@
 
               //Update the dropdown box with all our families for our modalNewStory
               var html =   "<option value='" + familySnapshot.key + "'>" + snapshot.child("name").val() + "</option>"
-              console.log(html)
+
               $('#newStoryFamilyDropDown').append(html)
 
               //loop through all media that is tagged for this crest and add it to our timeline
@@ -69,6 +70,7 @@
                 ref.once("value")
                   .then(function(snapshot) {
                     renderMedia(snapshot);
+                    renderVault(snapshot);
                   })
               })
 
@@ -212,17 +214,19 @@
     var media = snapshot.val();
     var html
     //make sure we don't render duplicate cards if they are shared to multiple families.
+    
     if($("#"+snapshot.key).length < 1) {
       if(media.video_story) {
         html = "<div class='row col l6 m6 s12'>" +
                   "<div class='card large' id='"+snapshot.key+"'>" +
-                     "<div class='card-image waves-effect waves-block waves-light'>" +
+                     "<div class='card-image waves-effect waves-block waves-light' style='height:220px !important;'>" +
                        "<img class='activator' style='background-posting:center top; width=100%; height:auto' src='"+media.media_url+"'>" +
+                       "<span class='card-title'>" + media.story_year +"</span>" +
                      "</div>" +
                      "<div class='card-content center'>"+
-                       "<span class='card-title activator grey-text text-darken-4'>" + media.title +
-                       "<p><em class='card-title activator'>Story Year: " + media.story_year + "</em></p>" +
+                       "<div class='card-title activator grey-text text-darken-4'>" + media.title + "</div>" +
                        "<div class='btn activator teal lighten-3 center'>Watch Story</div>" +
+                       "<div class='switch' style='padding-top:10px;'><label><input type='checkbox'><span class='lever'></span>Vault</label></div>" +
                      "</div>" +
                    "<div class='card-reveal'>" +
                      "<span class='card-title activator grey-text text-darken-4 flow-text'>" + media.title + "<i class='material-icons right'>close</i></span>" +
@@ -234,13 +238,14 @@
 
       } else {
        html = "<div class='col l6 m6 s12 row'>" + "<div class='card large' id='"+snapshot.key+"'>" +
-                    "<div class='card-image waves-effect waves-block waves-light'>" +
-                      "<img class='activator' style='background-posting:center top; width=100%; height:auto' src='"+media.media_url+"'>" +
+                    "<div class='card-image waves-effect waves-block waves-light' style='height:220px !important;'>" +
+                      "<img class='activator' style='background-posting:center top; background-size: cover;' src='"+media.media_url+"'>" +
+                      "<span class='card-title'>" + media.story_year +"</span>" +
                     "</div>" +
                     "<div class='card-content center'>"+
-                      "<span class='card-title activator grey-text text-darken-4'>" + media.title +
-                      "<p><em class='card-title activator'>Story Year: " + media.story_year + "</em></p>" +
+                      "<div class='card-title activator grey-text text-darken-4'>" + media.title + "</div>" +
                       "<div class='btn activator teal lighten-3 center'>Read Story</div>" +
+                      "<div class='switch' style='padding-top:10px;'><label><input type='checkbox'><span class='lever'></span>Vault</label></div>" +
                     "</div>" +
                   "<div class='card-reveal'>" +
                     "<span class='card-title activator grey-text text-darken-4'>" + media.title + "<i class='material-icons right'>close</i></span>" +
@@ -250,6 +255,17 @@
       }
       $('#timelineMedia').append(html);
     }
+  }
+
+  function renderVault(snapshot) {
+    var media = snapshot.val();
+    html =
+    '<li>'+
+      '<div class="collapsible-header"><i class="material-icons">view_module</i>'+media.title+'<i class="material-icons right">mode_edit</i><i class="material-icons right">delete</i></div>'+
+      '<div class="collapsible-body center"><span>'+ media.desc+'</span><img class="materialboxed" style="margin-left:25%;padding:5px;" width=50% src="'+media.media_url+'"></div>'+
+    '</li>'
+    $('.materialboxed').materialbox();
+    $('#vaultmedia').append(html);
   }
 
   function viewStory() {
