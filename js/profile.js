@@ -214,10 +214,10 @@
     var media = snapshot.val();
     var html
     //make sure we don't render duplicate cards if they are shared to multiple families.
-    
+
     if($("#"+snapshot.key).length < 1) {
       if(media.video_story) {
-        html = "<div class='row col l6 m6 s12'>" +
+        html = "<div class='row col l4 m6 s12'>" +
                   "<div class='card large' id='"+snapshot.key+"'>" +
                      "<div class='card-image waves-effect waves-block waves-light' style='height:220px !important;'>" +
                        "<img class='activator' style='background-posting:center top; width=100%; height:auto' src='"+media.media_url+"'>" +
@@ -237,7 +237,7 @@
 
 
       } else {
-       html = "<div class='col l6 m6 s12 row'>" + "<div class='card large' id='"+snapshot.key+"'>" +
+       html = "<div class='col l4 m6 s12 row'>" + "<div class='card large' id='"+snapshot.key+"'>" +
                     "<div class='card-image waves-effect waves-block waves-light' style='height:220px !important;'>" +
                       "<img class='activator' style='background-posting:center top; background-size: cover;' src='"+media.media_url+"'>" +
                       "<span class='card-title'>" + media.story_year +"</span>" +

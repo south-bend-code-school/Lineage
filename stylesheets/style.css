@@ -16,6 +16,18 @@ body {
   height: 100vh;
 }
 
+.herovault {
+  background-image: linear-gradient(
+    rgba(0, 0, 0, 0.6),
+    rgba(0, 0, 0, 0.6)
+          ),url(../imgs/background-vault.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: repeat-y;
+  background-position: center;
+  height: 150vh;
+}
+
 .login-btns {
   margin: 0px;
   position:absolute;
